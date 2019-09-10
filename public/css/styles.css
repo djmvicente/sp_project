@@ -41,11 +41,6 @@
   transition: all 0.4s;
 }
 
-#content.active {
-  width: 100%;
-  margin
-}
-
 .separator {
   margin: 3em 0;
   border-bottom: 1px solid #000;
