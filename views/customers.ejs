@@ -1,0 +1,118 @@
+<%- include("partials/header"); %>
+
+<nav class="navbar bg-light">
+  <div class="">
+    Search:
+    <input type="text" name="" value="">
+  </div>
+  <button class="btn btn-primary btn-circle my-2 my-sm-2" data-toggle="modal" data-target="#addCustomerModal" data-whatEver="addCustomerModal">
+    <i class="fas fa-user-plus"></i>
+  </button>
+</nav>
+
+<!--------------------- Add Customer Modal ----------------------------->
+
+<div class="modal fade" id="addCustomerModal" tabindex="-1" role="dialog" aria-labelledby="addCustomerModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="addCustomerModalLabel">Add New Customer</h5>
+        <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form class="" action="/addCustomer" method="post">
+          <div class="form-row">
+            <div class="form-group col-md-6">
+              <label for="inputFirstName">First Name</label>
+              <input type="text" class="form-control" name="firstName" placeholder="First Name">
+            </div>
+            <div class="form-group col-md-6">
+              <label for="inputLastName">Last Name</label>
+              <input type="text" class="form-control" name="lastName" placeholder="Last Name">
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="inputEmail">Email</label>
+            <input class="form-control" type="email" name="email" placeholder="Email">
+          </div>
+          <button class="btn btn-primary" type="submit">Submit</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!---------------------------------------------------------------------------->
+
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">First Name</th>
+      <th scope="col">Last Name</th>
+      <th scope="col">Email</th>
+      <th scope="col">Delete Customer</th>
+      <th scope="col">Edit Customer</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% customerArray.forEach(function(customer) { %>
+      <tr>
+        <th scope="row"><%= customer.id %></th>
+        <td><%= customer.firstName %></td>
+        <td><%= customer.lastName %></td>
+        <td><%= customer.email %></td>
+        <td>
+          <form action="/deleteCustomer" method="post">
+            <input type="hidden" name="deleteRecord" value="<%= customer._id %>">
+            <button class="btn btn-danger btn-sm btn-block" type="submit">Delete</button>
+          </form>
+        </td>
+        <td>
+          <button class="btn btn-primary btn-sm btn-block" type="submit" name="button">Edit</button>
+        </td>
+      </tr>
+    <% }); %>
+  </tbody>
+</table>
+
+<!--------------------- Edit Customer Modal ----------------------------->
+
+<div class="modal fade" id="editCustomerModal" tabindex="-1" role="dialog" aria-labelledby="editCustomerModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="editCustomerModalLabel">Edit Customer</h5>
+        <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form class="" action="/editCustomer" method="post">
+          <div class="form-row">
+            <div class="form-group col-md-6">
+              <label for="inputNewFirstName">First Name</label>
+              <input type="text" class="form-control" name="firstName" placeholder="First Name">
+            </div>
+            <div class="form-group col-md-6">
+              <label for="inputnewLastName">Last Name</label>
+              <input type="text" class="form-control" name="lastName" placeholder="Last Name">
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="inputNewEmail">Email</label>
+            <input class="form-control" type="email" name="email" placeholder="Email">
+          </div>
+          <button class="btn btn-primary" type="submit">Update</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!---------------------------------------------------------------------------->
+
+<%- include("partials/footer"); %>
