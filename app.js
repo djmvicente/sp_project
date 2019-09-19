@@ -8,7 +8,9 @@ const _ = require("lodash");
 
 const app = express();
 
-mongoose.connect("mongodb://localhost:27017/customerDB", {useNewUrlParser: true});
+const editDataObject = [];
+
+mongoose.connect("mongodb://localhost:27017/customerDB", {useNewUrlParser: true, useFindAndModify: true});
 
 //------------------------Customer Schema-------------------------//
 
@@ -41,7 +43,6 @@ app.get("/profile", function(req,res) {
 });
 
 app.get("/customers", function(req,res) {
-
   Customer.find({}, function(err, foundCustomers) {
     if(foundCustomers) {
       res.render("customers", {
@@ -87,8 +88,34 @@ app.post("/deleteCustomer", function(req, res) {
   });
 });
 
-app.post("/editCustomer", function(req, res) {
+app.get("/editCustomerModal/:id", function(req, res) {
+  const editCustomerId = req.params.id;
+  Customer.findOne({_id: editCustomerId}, function(err, customer) {
+    if(!err) {
+      console.log(customer);
+      res.send(customer);
+    } else {
+      console.log(err);
+    }
+  });
+});
 
+app.post("/editCustomer", function(req, res) {
+  const customerId = req.body._id;
+
+  Customer.findOneAndUpdate({_id: customerId},
+    {$set: {
+      firstName: req.body.firstName,
+      lastName: req.body.lastName,
+      email: req.body.email
+    }},
+    function(err,foundCustomers) {
+      if(!err) {
+        console.log("Update Success!");
+        res.redirect("/customers");
+      }
+    }
+  );
 });
 
 app.listen(3000, function() {
